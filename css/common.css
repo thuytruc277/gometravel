@@ -1,0 +1,132 @@
+@charset "utf-8";
+
+/* xác định các biến số trước khi làm main.css */
+:root {
+  --main-font: "Montserrat", sans-serif;
+--sub-font: "Roboto", serif;
+--base-font: "Paytone One", serif;
+--main-color: #51127f;
+--sub-color: #d70a84;
+--base-gradient: linear-gradient(to right, #d70a84, #51127f);
+}
+
+/* set up cơ bản cho main */
+body {font-family: var(--main-font); font-size: 1.6rem; line-height: 1.5; color: #333; overflow-x: hidden;}
+.inner {max-width: 1700px; margin: 0 auto; padding: 0 20px;}
+
+
+
+/* HEADER */
+#header {padding-top: 10px; position: absolute; left: 0; top: 0; width: 100%; z-index: 3; transition: all 0.5s;}
+/* 1 - logo */
+#header h1 {position: relative; width: 40%; }
+#header h1 img {width: 40%; display: block;}
+#header h1 .logow {opacity: 1; transition: all 0.5s;}
+#header h1 .logoc {position: absolute; top: 0; z-index: 2; opacity: 0; transition: all 0.5s;}
+/* 2 - menu bar */
+#header .inner {display: flex; justify-content: space-between; align-items: center;}
+#header nav {margin-right: 200px;} /* trong inner có 3 yếu tố, đẩy yếu tố ở giữa là nav sang bên trái */
+#header .gnb {display: flex;}
+#header .gnb > li {position: relative;}
+/* 3 - cánh sen trên menu */
+#header .gnb > li::before {content: ""; display: block; width: 31px; height: 32px; background: url(../images/common/nav.png); position: absolute; left: -7px; top: -2PX; opacity: 0; transition: all 0.5s; transform: rotate(-90deg);}
+#header .gnb > li:hover::before {opacity: 1; transform: translateY(10px);}
+#header .gnb > li > a {display: block; padding: 20px 30px; color: #fff; font-size: 1.8rem;}
+#header.active .gnb > li:hover > a {color: var(--sub-color); font-weight: 600;}
+
+/* 4 -  2차 menu*/
+#header .gnb > li .depth2 {position: absolute; z-index: 5; width: 700px; display: none; left: calc(50% - 350px); text-align: center;}
+#header .gnb > li .depth2 li {display: inline-block;}
+#header .gnb > li .depth2 li a {display: block; padding: 15px 20px; color: #fff;} /* muốn đổi chữ màu trắng or tạo khoảng cách giữa các chữ thì nên cho vào a */
+
+/* 5 - thêm màu nền trắng khi rê chuột lên menu1 là gnb, chứ rê chuột lên util thì ko có nền trắng */
+#header.active {background: #fff;}
+#header.active h1 .logow {opacity: 0;}
+#header.active h1 .logoc {opacity: 1;}
+#header.active .gnb > li > a {color: var(--main-color);} 
+#header.active .util {filter: invert(30%);} /* khi rê chuột lên thì các button đổi từ màu trắng sang đen */
+
+/* 6 - nhấn nút ham thì hiện ra màn hình đen mờ và các menu */
+.mgnb_wrap {position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: url(../images/common/mgnb_bg.jpg) no-repeat center center / cover; display: none;}
+.mgnb_wrap .mgnb {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #fff; width: 60%; border-bottom: 1px solid rgba(255,255,255,0.5); }
+.mgnb_wrap .mgnb > li {display: flex; border-top: 1px solid rgba(255,255,255,0.5); font-size: 3rem; align-items: center; padding: 20px 50px 20px 0; }
+.mgnb_wrap .mgnb > li > a {width: 300px; margin-right: 50px;}
+.mgnb_wrap .mgnb > li .mdepth2 {display: flex; gap: 40px; font-size: 2rem; opacity: 0.9;}
+.mgnb_wrap .mgnb_close {width: 30px; height: 30px; font-size: 0; background: url(../images/common/icon_close_w.svg); cursor: pointer; position: absolute; right: 20px; top: 20px;}
+
+
+/* 7 - khi giảm màn hình */
+@media (max-width: 1500px) {
+  #header h1 img {width: 150px;}
+}
+@media (max-width: 1400px) {
+  #header h1 img {width: 140px;}
+}
+@media (max-width: 1300px) {
+  #header h1 img {width: 130px;}
+  #header .gnb {display: none;}
+  #header .util > *:not(.ham) {display: none !important;} /* khi giảm màn hình thì phầm menu đầu trang mất đi, nút search mất đi, giỏ hàng mất đi, còn mỗi ham hiện ra */
+  .mgnb_wrap .mgnb {width: 80%;}
+  .mgnb_wrap .mgnb > li {font-size: 2.5rem;}
+  .mgnb_wrap .mgnb > li .mdepth2 {font-size: 1.7rem;}
+}
+@media (max-width: 1000px) {
+  .mgnb_wrap .mgnb > li {flex-wrap: wrap;}
+  .mgnb_wrap .mgnb > li > a {width: 100%;}
+  .mgnb_wrap .mgnb > li .mdepth2 {width: 100%; gap: 30px; padding-top: 30px;}
+}
+@media (max-width: 768px) {
+  #header h1 img {width: 120px;}
+  .mgnb_wrap .mgnb > li .mdepth2 {display: none; padding-top: 10px;}
+  .mgnb_wrap .mgnb li .mdepth2 li {list-style-type: disc; list-style-position: inside; padding-left: 30px;}
+  .mgnb_wrap .mgnb > li > a {pointer-events: none; cursor: default;}
+  .mgnb_wrap .mgnb {width: 90%;}
+  .mgnb_wrap .mgnb > li {font-size: 2rem;}
+}
+
+/* 8 - vùng tìm kiếm khi nhấn nút search */
+.search {position: absolute; left: 0; background: rgba(255,255,255,0.2); border-top: #ddd solid 1px; width: 100%; padding: 50px 0; display: none;}
+.search .input_box {display: flex; justify-content: center;}
+.search input[type="text"] {height: 50px; background: #FEF5FF; border-radius: 30px 0 0 30px; width: 500px; padding-left: 30px; font-size: 1.8rem; color: #51127f;}
+.search .input_box input::placeholder {  color: #51127f;}
+.search input[type="submit"] {height: 50px; background: #FEF5FF url(../images/common/search.png) no-repeat center center; font-size: 0; cursor: pointer; border-radius: 0 30px 30px 0; width: 50px;}
+
+/* 9 - nút bên góc phải, phải chốt size cho mỗi yếu tố, sau đó nhét background vào */
+#header .util {display: flex; gap: 20px;}
+#header .util a {display: block; color: #fff;}
+#header .util .btn_search {width: 24px; height: 24px; font-size: 0; cursor: pointer; background: url(../images/common/icon_search_w.svg);}
+#header .util .btn_search.active {background: url(../images/common/icon_close_w.svg);}
+
+#header .util .ham {width: 24px; height: 24px; font-size: 0; cursor: pointer; background: url(../images/common/icon_menu_w.svg);}
+
+/* 10 - vùng nền khi hiện 2차 menu */
+#header .depth2_bg {position: absolute; left: 0; height: 55px; width: 100%; background: var(--main-color); display: none;}
+
+
+
+
+
+
+/* footer */
+#footer {padding: 170px 0 50px 0; background: #51127f url(../images/common/footer_bg.png) no-repeat center center / cover; color: #51127f;}
+#footer .inner {display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;}
+#footer .footer_left .footer_logo {width: 250px; padding-bottom: 20px;}
+#footer .footer_left .footer_logo img {display: block; width: 100%;}
+#footer .footer_link {display: flex; gap: 20px; flex-wrap: wrap; font-weight: 700;}
+#footer .footer_txt {opacity: 0.5; padding-top: 20px; line-height: 2;}
+#footer .footer_right {text-align: right;}
+#footer .cs dd {font-size: 3rem; font-weight: 700; color: #d70a84;}
+#footer .sns {display: flex; gap: 20px; justify-content: flex-end; padding: 20px 0;}
+#footer .copy {opacity: 0.5; padding-top: 20px;}
+
+@media (max-width: 1200px) {
+  #footer .footer_right {text-align: left;}
+  #footer .sns {gap: 10px; justify-content: flex-start; padding: 10px 0;}
+  #footer .footer_left .footer_logo {width: 200px;}
+}
+@media (max-width: 768px) {
+  #footer {font-size: 1.4rem;}
+  #footer .footer_link {flex-direction: column; align-items: flex-start; gap: 5px;}
+  #footer .footer_txt {line-height: 1.5;}
+  #footer .footer_left .footer_logo {width: 150px; padding-bottom: 15px;}
+}
